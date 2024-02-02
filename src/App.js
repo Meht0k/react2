@@ -1,25 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import "./App.css"
 
-function App() {
+const MyComponent = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+        const response = await fetch('https://jsonplaceholder.typicode.com/photos');
+        const result = await response.json();
+        setData(result);
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <>
+      <div className="container-fluid p-0">
+        <div className='row row-cols-1 row-cols-md-3 row-cols-lg-5 g-3 px-3'>
+          {data.map((item, index) => (
+            <div className='col' key={index}><img className='img-fluid' src={item.url} /></div>
+          ))}
 
-export default App;
+        </div>
+      </div>
+
+    </>
+  );
+};
+
+export default MyComponent;
+
